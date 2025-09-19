@@ -19,16 +19,24 @@ const quizDB = {
 };
 
 let currentCategory = [];
+let timer;
+let timeLeft = 30;
+
 const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
+const restartButton = document.getElementById("restart");
+const timerDisplay = document.getElementById("timer");
+const progressBar = document.getElementById("progress-bar");
 
 // Start Quiz
 function startQuiz(category) {
   currentCategory = quizDB[category];
-  document.querySelector(".category-container").classList.add("hidden");
+  document.getElementById("category-section").classList.add("hidden");
   document.getElementById("quiz-section").classList.remove("hidden");
+
   buildQuiz();
+  startTimer();
 }
 
 // Build Quiz
@@ -47,12 +55,15 @@ function buildQuiz() {
     output.push(`<div class="question">${q.question}</div><div class="answers">${answers.join("")}</div>`);
   });
   quizContainer.innerHTML = output.join("");
+  updateProgress(0);
 }
 
 // Show Results
 function showResults() {
+  clearInterval(timer); // stop timer
   const answerContainers = quizContainer.querySelectorAll(".answers");
   let score = 0;
+
   currentCategory.forEach((q, index) => {
     const answerContainer = answerContainers[index];
     const selector = `input[name=question${index}]:checked`;
@@ -65,7 +76,42 @@ function showResults() {
       answerContainers[index].style.color = "red";
     }
   });
-  resultsContainer.innerHTML = `You scored ${score} out of ${currentCategory.length}`;
+
+  resultsContainer.innerHTML = `🎉 You scored ${score} out of ${currentCategory.length}`;
+  submitButton.classList.add("hidden");
+  restartButton.classList.remove("hidden");
+}
+
+// Restart Quiz
+function restartQuiz() {
+  document.getElementById("quiz-section").classList.add("hidden");
+  document.getElementById("category-section").classList.remove("hidden");
+  resultsContainer.innerHTML = "";
+  submitButton.classList.remove("hidden");
+  restartButton.classList.add("hidden");
+  clearInterval(timer);
+}
+
+// Timer
+function startTimer() {
+  timeLeft = 30;
+  timerDisplay.textContent = `⏳ ${timeLeft}s`;
+
+  timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `⏳ ${timeLeft}s`;
+    updateProgress(((30 - timeLeft) / 30) * 100);
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      showResults();
+    }
+  }, 1000);
+}
+
+// Progress Bar
+function updateProgress(percent) {
+  progressBar.style.width = percent + "%";
 }
 
 submitButton.addEventListener("click", showResults);
