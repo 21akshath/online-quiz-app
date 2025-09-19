@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Galaxy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="quiz-app">
+    <h1>🌌 Quiz Galaxy</h1>
+    <p class="subtitle">Select Your Challenge</p>
+    
+    <div class="category-container">
+      <button class="category" onclick="startQuiz('general')">General Knowledge</button>
+      <button class="category" onclick="startQuiz('science')">Science & Nature</button>
+      <button class="category" onclick="startQuiz('computers')">Science: Computers</button>
+      <button class="category" onclick="startQuiz('sports')">Sports</button>
+    </div>
+
+    <div id="quiz-section" class="hidden">
+      <div id="quiz"></div>
+      <button id="submit">Submit Quiz</button>
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
