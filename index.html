@@ -11,17 +11,27 @@
     <h1>🌌 Quiz Galaxy</h1>
     <p class="subtitle">Select Your Challenge</p>
     
-    <div class="category-container">
+    <!-- Category Selection -->
+    <div class="category-container" id="category-section">
       <button class="category" onclick="startQuiz('general')">General Knowledge</button>
       <button class="category" onclick="startQuiz('science')">Science & Nature</button>
       <button class="category" onclick="startQuiz('computers')">Science: Computers</button>
       <button class="category" onclick="startQuiz('sports')">Sports</button>
     </div>
 
+    <!-- Quiz Section -->
     <div id="quiz-section" class="hidden">
+      <div class="quiz-header">
+        <div id="timer">⏳ 30s</div>
+        <div id="progress">
+          <div id="progress-bar"></div>
+        </div>
+      </div>
+
       <div id="quiz"></div>
       <button id="submit">Submit Quiz</button>
       <div id="results"></div>
+      <button id="restart" class="hidden" onclick="restartQuiz()">Restart</button>
     </div>
   </div>
 
